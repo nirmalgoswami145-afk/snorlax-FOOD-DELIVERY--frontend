@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import OwnerDashboard from './pages/OwnerDashboard';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RestaurantPage from './pages/RestaurantPage';
+import CartPage from './pages/CartPage';
+import MyOrdersPage from './pages/MyOrdersPage';
+
+const ProtectedRoute = ({ children }) => {
+  const { user } = useAuth();
+  return user ? children : <Navigate to="/login" />;
+};
+
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/restaurant/:id" element={<RestaurantPage />} />
+      <Route path="/cart" element={
+        <ProtectedRoute><CartPage /></ProtectedRoute>
+      } />
+      <Route path="/owner-dashboard" element={
+  <ProtectedRoute><OwnerDashboard /></ProtectedRoute>
+} />
+      <Route path="/my-orders" element={
+        <ProtectedRoute><MyOrdersPage /></ProtectedRoute>
+      } />
+    </Routes>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <CartProvider>
+        <Router>
+          <AppRoutes />
+        </Router>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 
