@@ -9,7 +9,7 @@ const OwnerDashboard = () => {
   const [restForm, setRestForm] = useState({ name: '', address: '' });
   const [menuForm, setMenuForm] = useState({ name: '', description: '', price: '' });
   const [loading, setLoading] = useState(false);
-  const { user, logout } = useAuth();
+  const {  logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
