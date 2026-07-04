@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = "https://food-delivery-backend-production-7afc.up.railway.app";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -37,4 +37,4 @@ export const orderService = {
   updateStatus: (orderId, status) => api.put(`/orders/${orderId}/status?status=${status}`),
 };
 
-export default api;
+export default api; 
